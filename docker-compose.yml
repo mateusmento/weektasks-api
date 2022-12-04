@@ -1,0 +1,53 @@
+version: "3.8"
+
+services:
+  weektasks-api:
+    container_name: weektasks-api
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    command: npm run start:dev
+    ports:
+      - 3000:3000
+    networks:
+      - weektasks-network
+    volumes:
+      - .:/user/src/app
+      - /user/src/app/node_modules
+    env_file:
+      - .env
+    depends_on:
+      - weektasks-db
+
+  weektasks-db:
+    image: postgres:14
+    container_name: weektasks-db
+    restart: always
+    ports:
+      - 5432:5432
+    networks:
+      - weektasks-network
+      - pgadmin-network
+    volumes:
+      - weektasks-data:/var/lib/postgresql/data
+    env_file:
+      - .env
+
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "omateusmento@gmail.com"
+      PGADMIN_DEFAULT_PASSWORD: "admin"
+    ports:
+      - 3300:80
+    depends_on:
+      - weektasks-db
+    networks:
+      - pgadmin-network
+
+networks:
+  weektasks-network:
+  pgadmin-network:
+
+volumes:
+  weektasks-data:
