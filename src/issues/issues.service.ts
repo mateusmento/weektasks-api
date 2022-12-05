@@ -13,7 +13,7 @@ export class IssuesService {
   ) {}
 
   create(createIssueDto: CreateIssueDto) {
-    return 'This action adds a new issue';
+    return this.issueRepo.save(createIssueDto);
   }
 
   findAll() {
