@@ -29,6 +29,6 @@ export class IssuesService {
   }
 
   remove(id: number) {
-    return `This action removes a #${id} issue`;
+    return this.issueRepo.delete(id);
   }
 }
