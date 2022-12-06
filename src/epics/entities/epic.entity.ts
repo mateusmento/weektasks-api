@@ -1,4 +1,9 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity()
 export class Epic {
@@ -6,4 +11,6 @@ export class Epic {
   id: number;
   @Column()
   title: string;
+  @CreateDateColumn()
+  createdAt: string;
 }
