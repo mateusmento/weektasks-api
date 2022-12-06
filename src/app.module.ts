@@ -4,6 +4,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { IssuesModule } from './issues/issues.module';
 import { SprintsModule } from './sprints/sprints.module';
+import { EpicsModule } from './epics/epics.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { SprintsModule } from './sprints/sprints.module';
     }),
     IssuesModule,
     SprintsModule,
+    EpicsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
