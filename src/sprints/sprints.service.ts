@@ -29,6 +29,6 @@ export class SprintsService {
   }
 
   remove(id: number) {
-    return `This action removes a #${id} sprint`;
+    this.sprintRepo.delete(id);
   }
 }
