@@ -1,7 +1,9 @@
+import { Issue } from 'src/issues/entities/issue.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -13,4 +15,7 @@ export class Epic {
   title: string;
   @CreateDateColumn()
   createdAt: string;
+
+  @OneToMany(() => Issue, (i) => i.epic)
+  issues: Issue[];
 }
