@@ -1,11 +1,19 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { CreateEpicDto } from './dto/create-epic.dto';
 import { UpdateEpicDto } from './dto/update-epic.dto';
+import { Epic } from './entities/epic.entity';
 
 @Injectable()
 export class EpicsService {
+  constructor(
+    @InjectRepository(Epic)
+    private epicRepo: Repository<Epic>,
+  ) {}
+
   create(createEpicDto: CreateEpicDto) {
-    return 'This action adds a new epic';
+    return this.epicRepo.save(createEpicDto);
   }
 
   findAll() {
@@ -17,7 +25,7 @@ export class EpicsService {
   }
 
   update(id: number, updateEpicDto: UpdateEpicDto) {
-    return `This action updates a #${id} epic`;
+    return `This action updates a #${id} epic ${updateEpicDto}`;
   }
 
   remove(id: number) {
