@@ -25,7 +25,7 @@ export class IssuesService {
   }
 
   update(id: number, updateIssueDto: UpdateIssueDto) {
-    return `This action updates a #${id} issue`;
+    return `This action updates a #${id} issue ${updateIssueDto}`;
   }
 
   remove(id: number) {
