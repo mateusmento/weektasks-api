@@ -17,7 +17,7 @@ export class SprintsService {
   }
 
   findAll() {
-    return `This action returns all sprints`;
+    return this.sprintRepo.find();
   }
 
   findOne(id: number) {
@@ -25,7 +25,7 @@ export class SprintsService {
   }
 
   update(id: number, updateSprintDto: UpdateSprintDto) {
-    return `This action updates a #${id} sprint`;
+    return `This action updates a #${id} sprint ${updateSprintDto}`;
   }
 
   remove(id: number) {
