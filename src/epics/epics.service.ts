@@ -17,7 +17,7 @@ export class EpicsService {
   }
 
   findAll() {
-    return `This action returns all epics`;
+    return this.epicRepo.find();
   }
 
   findOne(id: number) {
