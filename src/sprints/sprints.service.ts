@@ -1,11 +1,19 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { CreateSprintDto } from './dto/create-sprint.dto';
 import { UpdateSprintDto } from './dto/update-sprint.dto';
+import { Sprint } from './entities/sprint.entity';
 
 @Injectable()
 export class SprintsService {
+  constructor(
+    @InjectRepository(Sprint)
+    private sprintRepo: Repository<Sprint>,
+  ) {}
+
   create(createSprintDto: CreateSprintDto) {
-    return 'This action adds a new sprint';
+    return this.sprintRepo.save(createSprintDto);
   }
 
   findAll() {
