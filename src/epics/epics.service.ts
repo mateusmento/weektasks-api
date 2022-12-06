@@ -29,6 +29,6 @@ export class EpicsService {
   }
 
   remove(id: number) {
-    return `This action removes a #${id} epic`;
+    return this.epicRepo.delete(id);
   }
 }
