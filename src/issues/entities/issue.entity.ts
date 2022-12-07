@@ -1,7 +1,9 @@
+import { Epic } from 'src/epics/entities/epic.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -13,4 +15,7 @@ export class Issue {
   title: string;
   @CreateDateColumn()
   createdAt: string;
+
+  @ManyToOne(() => Epic, (e) => e.issues)
+  epic: Epic;
 }

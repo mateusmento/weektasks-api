@@ -17,7 +17,10 @@ export class IssuesService {
   }
 
   findAll() {
-    return this.issueRepo.find();
+    return this.issueRepo
+      .createQueryBuilder('issue')
+      .where('issue.epic is null')
+      .getMany();
   }
 
   findOne(id: number) {
