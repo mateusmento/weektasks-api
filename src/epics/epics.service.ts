@@ -17,7 +17,7 @@ export class EpicsService {
   }
 
   findAll() {
-    return this.epicRepo.find();
+    return this.epicRepo.find({ relations: { issues: true } });
   }
 
   findOne(id: number) {
