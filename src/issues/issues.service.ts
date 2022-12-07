@@ -20,6 +20,7 @@ export class IssuesService {
     return this.issueRepo
       .createQueryBuilder('issue')
       .where('issue.epic is null')
+      .where('issue.sprint is null')
       .getMany();
   }
 
