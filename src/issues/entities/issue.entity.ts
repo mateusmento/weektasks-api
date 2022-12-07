@@ -16,6 +16,6 @@ export class Issue {
   @CreateDateColumn()
   createdAt: string;
 
-  @ManyToOne(() => Epic, (e) => e.issues)
+  @ManyToOne(() => Epic, (e) => e.issues, { onDelete: 'SET NULL' })
   epic: Epic;
 }
