@@ -17,7 +17,7 @@ export class SprintsService {
   }
 
   findAll() {
-    return this.sprintRepo.find();
+    return this.sprintRepo.find({ relations: { issues: true } });
   }
 
   findOne(id: number) {
