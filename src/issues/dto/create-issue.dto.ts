@@ -1,8 +1,10 @@
-import { IsNotEmpty } from 'class-validator';
+import { Allow, IsNotEmpty } from 'class-validator';
 
 export class CreateIssueDto {
   @IsNotEmpty()
   title: string;
-  @IsNotEmpty()
+  @Allow()
   epic: { id: number };
+  @Allow()
+  sprint: { id: number };
 }
