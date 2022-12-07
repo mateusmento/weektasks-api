@@ -5,4 +5,6 @@ export class CreateIssueDto {
   title: string;
   @IsNotEmpty()
   epic: { id: number };
+  @IsNotEmpty()
+  sprint: { id: number };
 }
