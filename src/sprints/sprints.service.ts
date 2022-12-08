@@ -21,11 +21,13 @@ export class SprintsService {
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} sprint`;
+    return this.sprintRepo.findOneBy({ id });
   }
 
-  update(id: number, updateSprintDto: UpdateSprintDto) {
-    return `This action updates a #${id} sprint ${updateSprintDto}`;
+  async update(id: number, updateSprintDto: UpdateSprintDto) {
+    const sprint = await this.findOne(id);
+    sprint.title = updateSprintDto.title || sprint.title;
+    return this.sprintRepo.save(sprint);
   }
 
   remove(id: number) {
