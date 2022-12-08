@@ -1,4 +1,6 @@
-import { PartialType } from '@nestjs/mapped-types';
-import { CreateIssueDto } from './create-issue.dto';
+import { Allow } from 'class-validator';
 
-export class UpdateIssueDto extends PartialType(CreateIssueDto) {}
+export class UpdateIssueDto {
+  @Allow()
+  title: string;
+}

@@ -25,11 +25,13 @@ export class IssuesService {
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} issue`;
+    return this.issueRepo.findOneBy({ id });
   }
 
-  update(id: number, updateIssueDto: UpdateIssueDto) {
-    return `This action updates a #${id} issue ${updateIssueDto}`;
+  async update(id: number, updateIssueDto: UpdateIssueDto) {
+    const issue = await this.findOne(id);
+    issue.title = updateIssueDto.title || issue.title;
+    return this.issueRepo.save(issue);
   }
 
   remove(id: number) {
