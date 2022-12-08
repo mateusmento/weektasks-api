@@ -21,11 +21,13 @@ export class EpicsService {
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} epic`;
+    return this.epicRepo.findOneBy({ id });
   }
 
-  update(id: number, updateEpicDto: UpdateEpicDto) {
-    return `This action updates a #${id} epic ${updateEpicDto}`;
+  async update(id: number, updateEpicDto: UpdateEpicDto) {
+    const epic = await this.findOne(id);
+    epic.title = updateEpicDto.title || epic.title;
+    return this.epicRepo.save(epic);
   }
 
   remove(id: number) {
