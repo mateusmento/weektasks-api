@@ -13,9 +13,9 @@ export class BacklogItem {
   @Column()
   type: 'issue' | 'epic';
 
-  @ManyToOne(() => Issue)
+  @ManyToOne(() => Issue, { cascade: true })
   issue: Issue;
 
-  @ManyToOne(() => Epic)
+  @ManyToOne(() => Epic, { cascade: true })
   epic: Epic;
 }
