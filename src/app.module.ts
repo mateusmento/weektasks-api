@@ -5,6 +5,7 @@ import { AppService } from './app.service';
 import { IssuesModule } from './issues/issues.module';
 import { SprintsModule } from './sprints/sprints.module';
 import { EpicsModule } from './epics/epics.module';
+import { BacklogItemsModule } from './backlog-items/backlog-items.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { EpicsModule } from './epics/epics.module';
     IssuesModule,
     SprintsModule,
     EpicsModule,
+    BacklogItemsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
