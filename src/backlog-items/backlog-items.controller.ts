@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { BacklogItemsService } from './backlog-items.service';
 import { CreateBacklogItemDto } from './dto/create-backlog-item.dto';
 import { UpdateBacklogItemDto } from './dto/update-backlog-item.dto';
@@ -23,7 +31,10 @@ export class BacklogItemsController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateBacklogItemDto: UpdateBacklogItemDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateBacklogItemDto: UpdateBacklogItemDto,
+  ) {
     return this.backlogItemsService.update(+id, updateBacklogItemDto);
   }
 

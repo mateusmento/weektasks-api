@@ -4,6 +4,6 @@ import { BacklogItemsController } from './backlog-items.controller';
 
 @Module({
   controllers: [BacklogItemsController],
-  providers: [BacklogItemsService]
+  providers: [BacklogItemsService],
 })
 export class BacklogItemsModule {}
