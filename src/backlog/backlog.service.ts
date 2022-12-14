@@ -61,7 +61,7 @@ export class BacklogService {
     return max(orders) + 1;
   }
 
-  async moveBacklogItem({ id, issueType, order }: MoveBacklogItemDto) {
+  async moveBacklogItem(id: number, issueType: string, order: number) {
     if (issueType === 'epic') this.moveEpicInBacklog(id, order);
     else this.moveIssueInBacklog(id, order);
   }
@@ -139,10 +139,4 @@ export class BacklogService {
   }
 
   moveIssueInEpic(epicId: number, issueId: number, order: number) {}
-}
-
-interface MoveBacklogItemDto {
-  id: number;
-  issueType: string;
-  order: number;
 }
