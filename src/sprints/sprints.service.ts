@@ -33,4 +33,6 @@ export class SprintsService {
   remove(id: number) {
     this.sprintRepo.delete(id);
   }
+
+  createIssue() {}
 }
