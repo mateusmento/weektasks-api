@@ -13,6 +13,6 @@ export class BacklogController {
 
   @Post('issues')
   createIssue(issue: CreateIssueDto) {
-    return this.createIssue(issue);
+    return this.backlogService.createIssue(issue);
   }
 }
