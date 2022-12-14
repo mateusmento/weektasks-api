@@ -22,4 +22,7 @@ export class Issue {
 
   @ManyToOne(() => Sprint, (s) => s.issues, { onDelete: 'SET NULL' })
   sprint: Sprint;
+
+  @Column()
+  orderInEpic: number;
 }
