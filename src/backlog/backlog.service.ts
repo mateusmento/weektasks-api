@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { sortBy } from 'lodash';
+import { filter, max, sortBy } from 'lodash';
 import { CreateEpicDto } from 'src/epics/dto/create-epic.dto';
 import { Epic } from 'src/epics/entities/epic.entity';
 import { CreateIssueDto } from 'src/issues/dto/create-issue.dto';
@@ -47,6 +47,11 @@ export class BacklogService {
         .getRawOne(),
     ]);
 
-    return Math.max(issue.maxOrder, epic.maxOrder, -1) + 1;
+    const orders = filter(
+      [issue.maxOrder, epic.maxOrder, -1],
+      (n) => typeof n === 'number',
+    );
+
+    return max(orders) + 1;
   }
 }
