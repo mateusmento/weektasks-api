@@ -45,4 +45,9 @@ export class SprintsController {
   createIssue(@Param('id') id: number, @Body() issue: CreateIssueDto) {
     return this.sprintsService.createIssue(id, issue);
   }
+
+  @Post(':id/order')
+  moveSprint(@Param('id') id: number, @Body('order') order: number) {
+    return this.sprintsService.moveSprint(id, order);
+  }
 }
