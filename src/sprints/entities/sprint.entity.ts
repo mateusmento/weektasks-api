@@ -14,6 +14,9 @@ export class Sprint {
   @OneToMany(() => Issue, (i) => i.sprint)
   issues: Issue[];
 
+  @Column()
+  order: number;
+
   @Expose({ name: 'issues' })
   get sortedIssues() {
     return sortBy(this.issues, (i) => i.orderInSprint);

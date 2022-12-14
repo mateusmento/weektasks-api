@@ -17,8 +17,13 @@ export class SprintsService {
     private issueRepo: Repository<Issue>,
   ) {}
 
-  create(createSprintDto: CreateSprintDto) {
-    return this.sprintRepo.save(createSprintDto);
+  async create(sprint: CreateSprintDto) {
+    const max = await this.sprintRepo
+      .createQueryBuilder('sprint')
+      .select('max(sprint.order)', 'order')
+      .getRawOne();
+    const order = typeof max.order === 'number' ? max.order : -1;
+    return this.sprintRepo.save({ ...sprint, order: order + 1 });
   }
 
   findAll() {
