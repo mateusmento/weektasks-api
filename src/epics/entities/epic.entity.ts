@@ -22,6 +22,9 @@ export class Epic {
   @OneToMany(() => Issue, (i) => i.epic)
   issues: Issue[];
 
+  @Column({ nullable: true })
+  orderInBacklog?: number;
+
   @Expose({ name: 'issues' })
   sortedIssues() {
     return sortBy(this.issues, (i) => i.orderInEpic);
