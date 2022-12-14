@@ -1,4 +1,5 @@
 import { Exclude, Expose } from 'class-transformer';
+import { sortBy } from 'lodash';
 import { Issue } from 'src/issues/entities/issue.entity';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
@@ -15,6 +16,6 @@ export class Sprint {
 
   @Expose({ name: 'issues' })
   get sortedIssues() {
-    return [];
+    return sortBy(this.issues, (i) => i.orderInSprint);
   }
 }
