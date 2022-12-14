@@ -50,4 +50,12 @@ export class SprintsController {
   moveSprint(@Param('id') id: number, @Body('order') order: number) {
     return this.sprintsService.moveSprint(id, order);
   }
+
+  @Post(':sprintId/issues/:issueId/order')
+  moveIssueInSprint(
+    @Param('issueId') issueId: number,
+    @Body('order') order: number,
+  ) {
+    return this.sprintsService.moveIssueInSprint(issueId, order);
+  }
 }
