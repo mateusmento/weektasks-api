@@ -16,7 +16,7 @@ export class BacklogService {
     private epicRepo: Repository<Epic>,
   ) {}
 
-  async findIssuesAndEpics() {
+  async findBacklogItems() {
     const [issues, epics] = await Promise.all([
       this.issueRepo.find({ where: { epic: IsNull(), sprint: IsNull() } }),
       this.epicRepo.find({ relations: { issues: true } }),

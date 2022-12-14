@@ -7,9 +7,9 @@ import { BacklogService } from './backlog.service';
 export class BacklogController {
   constructor(private backlogService: BacklogService) {}
 
-  @Get('issues-and-epics')
-  findIssuesAndEpics() {
-    return this.backlogService.findIssuesAndEpics();
+  @Get('items')
+  findBacklogItems() {
+    return this.backlogService.findBacklogItems();
   }
 
   @Post('issues')
