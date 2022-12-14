@@ -23,5 +23,20 @@ export class BacklogService {
     return sortBy([...issues, ...epics], (i) => i.orderInBacklog);
   }
 
-  async createIssue() {}
+  async createIssue() {
+    const [issue, epic] = await Promise.all([
+      this.issueRepo
+        .createQueryBuilder('issue')
+        .select('max(issue.orderInBacklog)', 'maxOrder')
+        .getRawOne(),
+      this.epicRepo
+        .createQueryBuilder('epic')
+        .select('max(epic.orderInBacklog)', 'maxOrder')
+        .getRawOne(),
+    ]);
+
+    const order = Math.max(issue.maxOrder, epic.maxOrder, -1);
+
+    this.issueRepo.save({ orderInBacklog: order });
+  }
 }
