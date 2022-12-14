@@ -62,11 +62,11 @@ export class BacklogService {
   }
 
   async moveBacklogItem({ id, issueType, order }: MoveBacklogItemDto) {
-    if (issueType === 'epic') this.moveEpic(id, order);
-    else this.moveIssue(id, order);
+    if (issueType === 'epic') this.moveEpicInBacklog(id, order);
+    else this.moveIssueInBacklog(id, order);
   }
 
-  async moveIssue(id: number, order: number) {
+  async moveIssueInBacklog(id: number, order: number) {
     const issue = await this.issueRepo.findOne({ where: { id } });
     const newOrder = order;
     const oldOrder = issue.orderInBacklog;
@@ -102,7 +102,7 @@ export class BacklogService {
     }
   }
 
-  async moveEpic(id: number, order: number) {
+  async moveEpicInBacklog(id: number, order: number) {
     const epic = await this.epicRepo.findOne({ where: { id } });
     const newOrder = order;
     const oldOrder = epic.orderInBacklog;
