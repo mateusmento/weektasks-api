@@ -24,6 +24,9 @@ export class Issue {
   sprint: Sprint;
 
   @Column({ nullable: true })
+  orderInBacklog?: number;
+
+  @Column({ nullable: true })
   orderInEpic?: number;
 
   @Column({ nullable: true })
