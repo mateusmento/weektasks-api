@@ -27,7 +27,10 @@ export class SprintsService {
   }
 
   findAll() {
-    return this.sprintRepo.find({ relations: { issues: true } });
+    return this.sprintRepo.find({
+      relations: { issues: true },
+      order: { order: 'asc' },
+    });
   }
 
   findOne(id: number) {
