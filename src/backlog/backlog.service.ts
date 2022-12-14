@@ -61,5 +61,56 @@ export class BacklogService {
     return max(orders) + 1;
   }
 
-  async moveBacklogItem() {}
+  async moveBacklogItem({ id, issueType, order }: MoveBacklogItemDto) {
+    if (issueType === 'epic') this.moveEpic(id, order);
+    else this.moveIssue(id, order);
+  }
+
+  async moveEpic(id: number, order: number) {
+    this.epicRepo
+      .createQueryBuilder()
+      .update()
+      .set({ orderInBacklog: order })
+      .where('id = :id', { id })
+      .execute();
+    this.epicRepo
+      .createQueryBuilder()
+      .update()
+      .set({ orderInBacklog: () => '"orderInBacklog" + 1' })
+      .where('orderInBacklog >= :order and id <> :id', { order: order, id })
+      .execute();
+    this.issueRepo
+      .createQueryBuilder()
+      .update()
+      .set({ orderInBacklog: () => '"orderInBacklog" + 1' })
+      .where('orderInBacklog >= :order', { order: order })
+      .execute();
+  }
+
+  async moveIssue(id: number, order: number) {
+    this.issueRepo
+      .createQueryBuilder()
+      .update()
+      .set({ orderInBacklog: order })
+      .where('id = :id', { id })
+      .execute();
+    this.issueRepo
+      .createQueryBuilder()
+      .update()
+      .set({ orderInBacklog: () => '"orderInBacklog" + 1' })
+      .where('orderInBacklog >= :order and id <> :id', { order, id })
+      .execute();
+    this.epicRepo
+      .createQueryBuilder()
+      .update()
+      .set({ orderInBacklog: () => '"orderInBacklog" + 1' })
+      .where('orderInBacklog >= :order', { order })
+      .execute();
+  }
+}
+
+interface MoveBacklogItemDto {
+  id: number;
+  issueType: string;
+  order: number;
 }
