@@ -67,6 +67,7 @@ export class BacklogService {
   }
 
   async moveEpic(id: number, order: number) {
+    const epic = await this.epicRepo.findOne({ where: { id } });
     this.epicRepo
       .createQueryBuilder()
       .update()
@@ -88,6 +89,7 @@ export class BacklogService {
   }
 
   async moveIssue(id: number, order: number) {
+    const issue = await this.issueRepo.findOne({ where: { id } });
     this.issueRepo
       .createQueryBuilder()
       .update()
