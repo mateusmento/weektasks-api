@@ -10,6 +10,7 @@ import {
 import { EpicsService } from './epics.service';
 import { CreateEpicDto } from './dto/create-epic.dto';
 import { UpdateEpicDto } from './dto/update-epic.dto';
+import { CreateIssueDto } from 'src/issues/dto/create-issue.dto';
 
 @Controller('epics')
 export class EpicsController {
@@ -38,5 +39,10 @@ export class EpicsController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.epicsService.remove(+id);
+  }
+
+  @Post(':id/issues')
+  createIssue(@Param('id') id: number, @Body() issue: CreateIssueDto) {
+    return this.epicsService.createIssue(id, issue);
   }
 }
