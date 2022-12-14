@@ -1,5 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { find, max } from 'lodash';
+import { CreateIssueDto } from 'src/issues/dto/create-issue.dto';
 import { Repository } from 'typeorm';
 import { CreateSprintDto } from './dto/create-sprint.dto';
 import { UpdateSprintDto } from './dto/update-sprint.dto';
@@ -37,7 +39,12 @@ export class SprintsService {
     this.sprintRepo.delete(id);
   }
 
-  createIssue(id: number) {
-    this.findOne(id);
+  async createIssue(id: number, issue: CreateIssueDto) {
+    const sprint = await this.findOne(id);
+    const maxOrder = max(sprint.issues.map((i) => i.orderInSprint));
+    const order = find(
+      [issue.order, maxOrder, -1],
+      (n) => typeof n === 'number',
+    );
   }
 }
