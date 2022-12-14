@@ -22,4 +22,6 @@ export class BacklogService {
 
     return sortBy([...issues, ...epics], (i) => i.orderInBacklog);
   }
+
+  async createIssue() {}
 }
