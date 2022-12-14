@@ -49,6 +49,6 @@ export class SprintsService {
       [issue.order, maxOrder, -1],
       (n) => typeof n === 'number',
     );
-    return this.issueRepo.save({ ...issue, sprint, orderInSprint: order });
+    return this.issueRepo.save({ ...issue, sprint, orderInSprint: order + 1 });
   }
 }
