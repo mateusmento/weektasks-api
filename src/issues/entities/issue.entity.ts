@@ -25,4 +25,7 @@ export class Issue {
 
   @Column()
   orderInEpic: number;
+
+  @Column()
+  orderInSprint: number;
 }
