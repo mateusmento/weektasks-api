@@ -12,6 +12,7 @@ import {
 export class Issue {
   @PrimaryGeneratedColumn()
   id: number;
+  issueType = 'issue';
   @Column()
   title: string;
   @CreateDateColumn()

@@ -13,6 +13,7 @@ import { Exclude, Expose } from 'class-transformer';
 export class Epic {
   @PrimaryGeneratedColumn()
   id: number;
+  issueType = 'epic';
   @Column()
   title: string;
   @CreateDateColumn()

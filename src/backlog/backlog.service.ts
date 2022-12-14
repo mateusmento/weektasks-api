@@ -22,13 +22,7 @@ export class BacklogService {
       this.epicRepo.find({ relations: { issues: true } }),
     ]);
 
-    return sortBy(
-      [
-        ...issues.map((i) => ({ issueType: 'issue', ...i })),
-        ...epics.map((e) => ({ issueType: 'epic', ...e })),
-      ],
-      (i) => i.orderInBacklog,
-    );
+    return sortBy([...issues, ...epics], (i) => i.orderInBacklog);
   }
 
   async createIssue(issue: CreateIssueDto) {
