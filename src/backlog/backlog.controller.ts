@@ -1,4 +1,4 @@
-import { Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
 import { CreateEpicDto } from 'src/epics/dto/create-epic.dto';
 import { CreateIssueDto } from 'src/issues/dto/create-issue.dto';
 import { BacklogService } from './backlog.service';
@@ -13,12 +13,12 @@ export class BacklogController {
   }
 
   @Post('issues')
-  createIssue(issue: CreateIssueDto) {
+  createIssue(@Body() issue: CreateIssueDto) {
     return this.backlogService.createIssue(issue);
   }
 
   @Post('epics')
-  createEpic(epic: CreateEpicDto) {
+  createEpic(@Body() epic: CreateEpicDto) {
     return this.backlogService.createEpic(epic);
   }
 }
