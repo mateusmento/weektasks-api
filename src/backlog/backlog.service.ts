@@ -5,7 +5,7 @@ import { CreateEpicDto } from 'src/epics/dto/create-epic.dto';
 import { Epic } from 'src/epics/entities/epic.entity';
 import { CreateIssueDto } from 'src/issues/dto/create-issue.dto';
 import { Issue } from 'src/issues/entities/issue.entity';
-import { Repository } from 'typeorm';
+import { IsNull, Repository } from 'typeorm';
 
 @Injectable()
 export class BacklogService {
@@ -18,7 +18,7 @@ export class BacklogService {
 
   async findIssuesAndEpics() {
     const [issues, epics] = await Promise.all([
-      this.issueRepo.find(),
+      this.issueRepo.find({ where: { epic: IsNull(), sprint: IsNull() } }),
       this.epicRepo.find({ relations: { issues: true } }),
     ]);
 
