@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { sortBy } from 'lodash';
+import { CreateEpicDto } from 'src/epics/dto/create-epic.dto';
 import { Epic } from 'src/epics/entities/epic.entity';
 import { CreateIssueDto } from 'src/issues/dto/create-issue.dto';
 import { Issue } from 'src/issues/entities/issue.entity';
@@ -27,6 +28,11 @@ export class BacklogService {
   async createIssue(issue: CreateIssueDto) {
     const order = await this.findMaxOrder();
     return this.issueRepo.save({ ...issue, orderInBacklog: order });
+  }
+
+  async createEpic(epic: CreateEpicDto) {
+    const order = await this.findMaxOrder();
+    return this.epicRepo.save({ ...epic, orderInBacklog: order });
   }
 
   async findMaxOrder() {
