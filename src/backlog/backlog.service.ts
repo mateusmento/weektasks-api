@@ -60,4 +60,6 @@ export class BacklogService {
 
     return max(orders) + 1;
   }
+
+  async moveBacklogItem() {}
 }
