@@ -21,7 +21,10 @@ export class SprintsService {
   }
 
   findOne(id: number) {
-    return this.sprintRepo.findOneBy({ id });
+    return this.sprintRepo.findOne({
+      where: { id },
+      relations: { issues: true },
+    });
   }
 
   async update(id: number, updateSprintDto: UpdateSprintDto) {
