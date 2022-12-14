@@ -12,4 +12,6 @@ export class BacklogService {
     @InjectRepository(Epic)
     private epicRepo: Repository<Epic>,
   ) {}
+
+  findIssuesAndEpics() {}
 }
