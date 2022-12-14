@@ -7,6 +7,7 @@ import { IssuesModule } from 'src/issues/issues.module';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Epic]), IssuesModule],
+  exports: [TypeOrmModule],
   controllers: [EpicsController],
   providers: [EpicsService],
 })
