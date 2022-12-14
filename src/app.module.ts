@@ -18,6 +18,7 @@ import { BacklogModule } from './backlog/backlog.module';
       database: 'weektasks',
       autoLoadEntities: true,
       synchronize: true,
+      logging: true,
     }),
     IssuesModule,
     SprintsModule,
