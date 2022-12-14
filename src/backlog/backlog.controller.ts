@@ -7,6 +7,6 @@ export class BacklogController {
 
   @Get('issues-and-epics')
   findIssuesAndEpics() {
-    return [];
+    return this.backlogService.findIssuesAndEpics();
   }
 }
