@@ -26,16 +26,16 @@ export class BacklogService {
   }
 
   async createIssue(issue: CreateIssueDto) {
-    const order = await this.findMaxOrder();
+    const order = await this.findNextOrder();
     return this.issueRepo.save({ ...issue, orderInBacklog: order });
   }
 
   async createEpic(epic: CreateEpicDto) {
-    const order = await this.findMaxOrder();
+    const order = await this.findNextOrder();
     return this.epicRepo.save({ ...epic, orderInBacklog: order });
   }
 
-  async findMaxOrder() {
+  async findNextOrder() {
     const [issue, epic] = await Promise.all([
       this.issueRepo
         .createQueryBuilder('issue')
@@ -47,6 +47,6 @@ export class BacklogService {
         .getRawOne(),
     ]);
 
-    return Math.max(issue.maxOrder, epic.maxOrder, -1);
+    return Math.max(issue.maxOrder, epic.maxOrder, -1) + 1;
   }
 }
