@@ -132,5 +132,31 @@ export class BacklogService {
     }
   }
 
-  moveIssueInEpic(epicId: number, issueId: number, order: number) {}
+  async moveIssueInEpic(epicId: number, issueId: number, order: number) {
+    const issue = await this.issueRepo.findOne({ where: { id: issueId } });
+    const newOrder = order;
+    const oldOrder = issue.orderInEpic;
+    console.log(issue);
+    this.issueRepo.update({ id: issueId }, { orderInEpic: newOrder });
+
+    if (oldOrder < newOrder) {
+      this.issueRepo.update(
+        {
+          id: Not(Equal(issueId)),
+          epic: { id: epicId },
+          orderInEpic: Between(oldOrder, newOrder),
+        },
+        { orderInEpic: () => '"orderInEpic" - 1' },
+      );
+    } else {
+      this.issueRepo.update(
+        {
+          id: Not(Equal(issueId)),
+          epic: { id: epicId },
+          orderInEpic: Between(newOrder, oldOrder),
+        },
+        { orderInEpic: () => '"orderInEpic" + 1' },
+      );
+    }
+  }
 }
