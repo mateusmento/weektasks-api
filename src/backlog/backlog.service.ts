@@ -5,7 +5,7 @@ import { CreateEpicDto } from 'src/epics/dto/create-epic.dto';
 import { Epic } from 'src/epics/entities/epic.entity';
 import { CreateIssueDto } from 'src/issues/dto/create-issue.dto';
 import { Issue } from 'src/issues/entities/issue.entity';
-import { IsNull, Repository } from 'typeorm';
+import { Between, Equal, IsNull, Not, Repository } from 'typeorm';
 
 @Injectable()
 export class BacklogService {
@@ -66,48 +66,76 @@ export class BacklogService {
     else this.moveIssue(id, order);
   }
 
-  async moveEpic(id: number, order: number) {
-    const epic = await this.epicRepo.findOne({ where: { id } });
-    this.epicRepo
-      .createQueryBuilder()
-      .update()
-      .set({ orderInBacklog: order })
-      .where('id = :id', { id })
-      .execute();
-    this.epicRepo
-      .createQueryBuilder()
-      .update()
-      .set({ orderInBacklog: () => '"orderInBacklog" + 1' })
-      .where('orderInBacklog >= :order and id <> :id', { order: order, id })
-      .execute();
-    this.issueRepo
-      .createQueryBuilder()
-      .update()
-      .set({ orderInBacklog: () => '"orderInBacklog" + 1' })
-      .where('orderInBacklog >= :order', { order: order })
-      .execute();
-  }
-
   async moveIssue(id: number, order: number) {
     const issue = await this.issueRepo.findOne({ where: { id } });
-    this.issueRepo
-      .createQueryBuilder()
-      .update()
-      .set({ orderInBacklog: order })
-      .where('id = :id', { id })
-      .execute();
-    this.issueRepo
-      .createQueryBuilder()
-      .update()
-      .set({ orderInBacklog: () => '"orderInBacklog" + 1' })
-      .where('orderInBacklog >= :order and id <> :id', { order, id })
-      .execute();
-    this.epicRepo
-      .createQueryBuilder()
-      .update()
-      .set({ orderInBacklog: () => '"orderInBacklog" + 1' })
-      .where('orderInBacklog >= :order', { order })
-      .execute();
+    const newOrder = order;
+    const oldOrder = issue.orderInBacklog;
+
+    this.issueRepo.update({ id }, { orderInBacklog: newOrder });
+
+    if (oldOrder < newOrder) {
+      this.issueRepo.update(
+        {
+          orderInBacklog: Between(oldOrder, newOrder),
+          id: Not(Equal(id)),
+        },
+        { orderInBacklog: () => '"orderInBacklog" - 1' },
+      );
+
+      this.epicRepo.update(
+        { orderInBacklog: Between(oldOrder, newOrder) },
+        { orderInBacklog: () => '"orderInBacklog" - 1' },
+      );
+    } else {
+      this.issueRepo.update(
+        {
+          orderInBacklog: Between(newOrder, oldOrder),
+          id: Not(Equal(id)),
+        },
+        { orderInBacklog: () => '"orderInBacklog" + 1' },
+      );
+
+      this.epicRepo.update(
+        { orderInBacklog: Between(newOrder, oldOrder) },
+        { orderInBacklog: () => '"orderInBacklog" + 1' },
+      );
+    }
+  }
+
+  async moveEpic(id: number, order: number) {
+    const epic = await this.epicRepo.findOne({ where: { id } });
+    const newOrder = order;
+    const oldOrder = epic.orderInBacklog;
+
+    this.epicRepo.update({ id }, { orderInBacklog: newOrder });
+
+    if (oldOrder < newOrder) {
+      this.epicRepo.update(
+        {
+          orderInBacklog: Between(oldOrder, newOrder),
+          id: Not(Equal(id)),
+        },
+        { orderInBacklog: () => '"orderInBacklog" - 1' },
+      );
+
+      this.issueRepo.update(
+        { orderInBacklog: Between(oldOrder, newOrder) },
+        { orderInBacklog: () => '"orderInBacklog" - 1' },
+      );
+    } else {
+      this.epicRepo.update(
+        {
+          orderInBacklog: Between(newOrder, oldOrder),
+          id: Not(Equal(id)),
+        },
+        { orderInBacklog: () => '"orderInBacklog" + 1' },
+      );
+
+      this.issueRepo.update(
+        { orderInBacklog: Between(newOrder, oldOrder) },
+        { orderInBacklog: () => '"orderInBacklog" + 1' },
+      );
+    }
   }
 }
 
