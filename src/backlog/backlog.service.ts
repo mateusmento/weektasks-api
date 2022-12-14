@@ -137,6 +137,8 @@ export class BacklogService {
       );
     }
   }
+
+  moveIssueInEpic(epicId: number, issueId: number, order: number) {}
 }
 
 interface MoveBacklogItemDto {

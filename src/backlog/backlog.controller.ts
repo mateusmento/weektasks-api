@@ -30,4 +30,11 @@ export class BacklogController {
   ) {
     return this.backlogService.moveBacklogItem({ id, issueType, order });
   }
+
+  @Post('epics/:epicId/issues/:issueId/order')
+  moveIssueInEpic(
+    @Param('epicId') epicId: number,
+    @Param('issueId') issueId: number,
+    @Body('order') order: number,
+  ) {}
 }
