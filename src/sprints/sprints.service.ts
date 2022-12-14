@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { find, max } from 'lodash';
 import { CreateIssueDto } from 'src/issues/dto/create-issue.dto';
+import { Issue } from 'src/issues/entities/issue.entity';
 import { Repository } from 'typeorm';
 import { CreateSprintDto } from './dto/create-sprint.dto';
 import { UpdateSprintDto } from './dto/update-sprint.dto';
@@ -12,6 +13,8 @@ export class SprintsService {
   constructor(
     @InjectRepository(Sprint)
     private sprintRepo: Repository<Sprint>,
+    @InjectRepository(Issue)
+    private issueRepo: Repository<Issue>,
   ) {}
 
   create(createSprintDto: CreateSprintDto) {
