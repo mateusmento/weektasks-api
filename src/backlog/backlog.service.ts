@@ -24,9 +24,9 @@ export class BacklogService {
     return sortBy([...issues, ...epics], (i) => i.orderInBacklog);
   }
 
-  async createIssue() {
+  async createIssue(issue: CreateIssueDto) {
     const order = await this.findMaxOrder();
-    return this.issueRepo.save({ orderInBacklog: order });
+    return this.issueRepo.save({ ...issue, orderInBacklog: order });
   }
 
   async findMaxOrder() {
