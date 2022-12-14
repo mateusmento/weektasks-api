@@ -73,12 +73,12 @@ export class SprintsService {
           id: Not(Equal(id)),
           order: Between(oldOrder, newOrder),
         },
-        { order: () => 'order - 1' },
+        { order: () => '"order" - 1' },
       );
     } else {
       this.sprintRepo.update(
         { id: Not(Equal(id)), order: Between(newOrder, oldOrder) },
-        { order: () => 'order + 1' },
+        { order: () => '"order" + 1' },
       );
     }
   }
