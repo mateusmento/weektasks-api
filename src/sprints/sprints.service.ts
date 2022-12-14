@@ -34,5 +34,7 @@ export class SprintsService {
     this.sprintRepo.delete(id);
   }
 
-  createIssue() {}
+  createIssue(id: number) {
+    this.findOne(id);
+  }
 }
