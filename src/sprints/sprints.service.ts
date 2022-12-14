@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { find, max } from 'lodash';
 import { CreateIssueDto } from 'src/issues/dto/create-issue.dto';
 import { Issue } from 'src/issues/entities/issue.entity';
-import { Repository } from 'typeorm';
+import { Between, Equal, Not, Repository } from 'typeorm';
 import { CreateSprintDto } from './dto/create-sprint.dto';
 import { UpdateSprintDto } from './dto/update-sprint.dto';
 import { Sprint } from './entities/sprint.entity';
@@ -58,5 +58,28 @@ export class SprintsService {
       (n) => typeof n === 'number',
     );
     return this.issueRepo.save({ ...issue, sprint, orderInSprint: order + 1 });
+  }
+
+  async moveSprint(id: number, order: number) {
+    const sprint = await this.sprintRepo.findOne({ where: { id } });
+    const newOrder = order;
+    const oldOrder = sprint.order;
+
+    this.sprintRepo.update({ id }, { order: newOrder });
+
+    if (oldOrder < newOrder) {
+      this.sprintRepo.update(
+        {
+          id: Not(Equal(id)),
+          order: Between(oldOrder, newOrder),
+        },
+        { order: () => 'order - 1' },
+      );
+    } else {
+      this.sprintRepo.update(
+        { id: Not(Equal(id)), order: Between(newOrder, oldOrder) },
+        { order: () => 'order + 1' },
+      );
+    }
   }
 }
