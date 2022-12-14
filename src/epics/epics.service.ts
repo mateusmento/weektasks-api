@@ -21,7 +21,10 @@ export class EpicsService {
   }
 
   findOne(id: number) {
-    return this.epicRepo.findOneBy({ id });
+    return this.epicRepo.findOne({
+      where: { id },
+      relations: { issues: true },
+    });
   }
 
   async update(id: number, updateEpicDto: UpdateEpicDto) {
