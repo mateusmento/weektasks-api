@@ -6,6 +6,7 @@ import { IssuesModule } from './issues/issues.module';
 import { SprintsModule } from './sprints/sprints.module';
 import { EpicsModule } from './epics/epics.module';
 import { BacklogItemsModule } from './backlog-items/backlog-items.module';
+import { BacklogModule } from './backlog/backlog.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { BacklogItemsModule } from './backlog-items/backlog-items.module';
     SprintsModule,
     EpicsModule,
     BacklogItemsModule,
+    BacklogModule,
   ],
   controllers: [AppController],
   providers: [AppService],
