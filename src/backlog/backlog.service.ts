@@ -5,7 +5,7 @@ import { CreateEpicDto } from 'src/epics/dto/create-epic.dto';
 import { Epic } from 'src/epics/entities/epic.entity';
 import { CreateIssueDto } from 'src/issues/dto/create-issue.dto';
 import { Issue } from 'src/issues/entities/issue.entity';
-import { Between, Equal, IsNull, Not, Repository } from 'typeorm';
+import { Repository, Between, Equal, IsNull, Not, MoreThan } from 'typeorm';
 
 @Injectable()
 export class BacklogService {
@@ -53,6 +53,28 @@ export class BacklogService {
     );
 
     return max(orders) + 1;
+  }
+
+  async removeIssueInBacklog(id: number) {
+    const issue = await this.issueRepo.findOneBy({
+      id,
+      epic: IsNull(),
+      sprint: IsNull(),
+    });
+    this.issueRepo.delete(id);
+    this.issueRepo.update(
+      {
+        id: Not(Equal(id)),
+        epic: IsNull(),
+        sprint: IsNull(),
+        orderInBacklog: MoreThan(issue.orderInBacklog),
+      },
+      { orderInBacklog: () => '"orderInBacklog" - 1' },
+    );
+    this.epicRepo.update(
+      { orderInBacklog: MoreThan(issue.orderInBacklog) },
+      { orderInBacklog: () => '"orderInBacklog" - 1' },
+    );
   }
 
   async moveBacklogItem(id: number, issueType: string, order: number) {

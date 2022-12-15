@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { CreateEpicDto } from 'src/epics/dto/create-epic.dto';
 import { CreateIssueDto } from 'src/issues/dto/create-issue.dto';
 import { BacklogService } from './backlog.service';
@@ -20,6 +20,11 @@ export class BacklogController {
   @Post('epics')
   createEpic(@Body() epic: CreateEpicDto) {
     return this.backlogService.createEpic(epic);
+  }
+
+  @Delete('issues/:id')
+  removeIssueInBacklog(@Param('id') id: number) {
+    return this.backlogService.removeIssueInBacklog(id);
   }
 
   @Post('order/:issueType/:id')
