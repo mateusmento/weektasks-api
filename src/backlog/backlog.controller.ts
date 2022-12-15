@@ -57,4 +57,13 @@ export class BacklogController {
   ) {
     return this.backlogService.moveIssueToBacklog(issueId, order);
   }
+
+  @Post('epics/:epicId/issues/:issueId')
+  moveIssueToEpic(
+    @Param('epicId') epicId: number,
+    @Param('issueId') issueId: number,
+    @Body('order') order: number,
+  ) {
+    return this.backlogService.moveIssueToEpic(epicId, issueId, order);
+  }
 }

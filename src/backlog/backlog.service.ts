@@ -198,4 +198,22 @@ export class BacklogService {
     );
     this.moveIssueInBacklog(issueId, order);
   }
+
+  async moveIssueToEpic(epicId: number, issueId: number, order: number) {
+    const nextOrder = await this.findNextOrderInEpic(epicId);
+    await this.issueRepo.update(
+      { id: issueId },
+      { orderInEpic: nextOrder, epic: { id: epicId }, sprint: null },
+    );
+    this.moveIssueInEpic(epicId, issueId, order);
+  }
+
+  async findNextOrderInEpic(epicId: number) {
+    const max = await this.issueRepo
+      .createQueryBuilder('issue')
+      .select('max(issue.orderInEpic)', 'order')
+      .where('issue.epic.id = :epicId', { epicId })
+      .getRawOne();
+    return max.order ?? -1;
+  }
 }
