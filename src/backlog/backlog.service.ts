@@ -196,5 +196,12 @@ export class BacklogService {
     }
   }
 
-  async moveIssueToBacklog(issueId: number, order: number) {}
+  async moveIssueToBacklog(issueId: number, order: number) {
+    const nextOrder = await this.findNextOrder();
+    await this.issueRepo.update(
+      { id: issueId },
+      { orderInBacklog: nextOrder, epic: null, sprint: null },
+    );
+    this.moveIssueInBacklog(issueId, order);
+  }
 }
