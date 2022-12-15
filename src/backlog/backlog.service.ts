@@ -77,6 +77,20 @@ export class BacklogService {
     );
   }
 
+  async removeEpicInBacklog(id: number) {
+    const epic = await this.epicRepo.findOneBy({ id });
+    const order = epic.orderInBacklog;
+    this.epicRepo.delete(id);
+    this.epicRepo.update(
+      { id: Not(Equal(id)), orderInBacklog: MoreThan(order) },
+      { orderInBacklog: () => '"orderInBacklog" - 1' },
+    );
+    this.issueRepo.update(
+      { orderInBacklog: MoreThan(order) },
+      { orderInBacklog: () => '"orderInBacklog" - 1' },
+    );
+  }
+
   async moveBacklogItem(id: number, issueType: string, order: number) {
     if (issueType === 'epic') this.moveEpicInBacklog(id, order);
     else this.moveIssueInBacklog(id, order);
