@@ -159,4 +159,6 @@ export class BacklogService {
       );
     }
   }
+
+  async moveIssueToBacklog(issueId: number, order: number) {}
 }
