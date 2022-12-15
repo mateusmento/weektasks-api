@@ -216,4 +216,21 @@ export class BacklogService {
       .getRawOne();
     return (max.order ?? -1) + 1;
   }
+
+  async removeIssueFromBacklog(id: number) {
+    const issue = await this.issueRepo.findOneBy({ id });
+    this.issueRepo.update(
+      {
+        id: Not(Equal(id)),
+        epic: IsNull(),
+        sprint: IsNull(),
+        orderInBacklog: MoreThan(issue.orderInBacklog),
+      },
+      { orderInBacklog: () => '"orderInBacklog" - 1' },
+    );
+    this.epicRepo.update(
+      { orderInBacklog: MoreThan(issue.orderInBacklog) },
+      { orderInBacklog: () => '"orderInBacklog" - 1' },
+    );
+  }
 }
