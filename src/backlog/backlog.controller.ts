@@ -37,6 +37,14 @@ export class BacklogController {
     return this.backlogService.removeEpicInBacklog(id);
   }
 
+  @Delete('epics/:epicId/issues/:issueId/soft-remove')
+  removeIssueFromEpic(
+    @Param('epicId') epicId: number,
+    @Param('issueId') issueId: number,
+  ) {
+    return this.backlogService.removeIssueFromEpic(epicId, issueId);
+  }
+
   @Post('order/:issueType/:id')
   moveBacklogItem(
     @Param('issueType') issueType,

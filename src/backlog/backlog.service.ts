@@ -233,4 +233,16 @@ export class BacklogService {
       { orderInBacklog: () => '"orderInBacklog" - 1' },
     );
   }
+
+  async removeIssueFromEpic(epicId: number, id: number) {
+    const issue = await this.issueRepo.findOneBy({ id });
+    this.issueRepo.update(
+      {
+        id: Not(Equal(id)),
+        epic: { id: epicId },
+        orderInEpic: MoreThan(issue.orderInEpic),
+      },
+      { orderInEpic: () => '"orderInEpic" - 1' },
+    );
+  }
 }
