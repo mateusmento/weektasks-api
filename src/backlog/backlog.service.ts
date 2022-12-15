@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { filter, max, sortBy } from 'lodash';
+import { sortBy } from 'lodash';
 import { CreateEpicDto } from 'src/epics/dto/create-epic.dto';
 import { Epic } from 'src/epics/entities/epic.entity';
 import { CreateIssueDto } from 'src/issues/dto/create-issue.dto';
@@ -47,12 +47,7 @@ export class BacklogService {
         .getRawOne(),
     ]);
 
-    const orders = filter(
-      [issue.maxOrder, epic.maxOrder, -1],
-      (n) => typeof n === 'number',
-    );
-
-    return max(orders) + 1;
+    return Math.max(issue.maxOrder ?? -1, epic.maxOrder ?? -1) + 1;
   }
 
   async removeIssueInBacklog(id: number) {
@@ -172,7 +167,6 @@ export class BacklogService {
     const issue = await this.issueRepo.findOne({ where: { id: issueId } });
     const newOrder = order;
     const oldOrder = issue.orderInEpic;
-    console.log(issue);
     this.issueRepo.update({ id: issueId }, { orderInEpic: newOrder });
 
     if (oldOrder < newOrder) {
