@@ -12,6 +12,7 @@ import {
 export class Issue {
   @PrimaryGeneratedColumn()
   id: number;
+  issueType = 'issue';
   @Column()
   title: string;
   @CreateDateColumn()
@@ -22,4 +23,13 @@ export class Issue {
 
   @ManyToOne(() => Sprint, (s) => s.issues, { onDelete: 'SET NULL' })
   sprint: Sprint;
+
+  @Column({ nullable: true })
+  orderInBacklog?: number;
+
+  @Column({ nullable: true })
+  orderInEpic?: number;
+
+  @Column({ nullable: true })
+  orderInSprint?: number;
 }

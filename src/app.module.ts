@@ -5,6 +5,7 @@ import { AppService } from './app.service';
 import { IssuesModule } from './issues/issues.module';
 import { SprintsModule } from './sprints/sprints.module';
 import { EpicsModule } from './epics/epics.module';
+import { BacklogModule } from './backlog/backlog.module';
 
 @Module({
   imports: [
@@ -17,10 +18,12 @@ import { EpicsModule } from './epics/epics.module';
       database: 'weektasks',
       autoLoadEntities: true,
       synchronize: true,
+      logging: true,
     }),
     IssuesModule,
     SprintsModule,
     EpicsModule,
+    BacklogModule,
   ],
   controllers: [AppController],
   providers: [AppService],
