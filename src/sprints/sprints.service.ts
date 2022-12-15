@@ -83,7 +83,7 @@ export class SprintsService {
     }
   }
 
-  async moveIssueInSprint(issueId: number, order: number) {
+  async moveIssueInSprint(sprintId: number, issueId: number, order: number) {
     const issue = await this.issueRepo.findOne({ where: { id: issueId } });
     const newOrder = order;
     const oldOrder = issue.orderInSprint;
@@ -94,6 +94,7 @@ export class SprintsService {
       this.issueRepo.update(
         {
           id: Not(Equal(issueId)),
+          sprint: { id: sprintId },
           orderInSprint: Between(oldOrder, newOrder),
         },
         { orderInSprint: () => '"orderInSprint" - 1' },
@@ -102,6 +103,7 @@ export class SprintsService {
       this.issueRepo.update(
         {
           id: Not(Equal(issueId)),
+          sprint: { id: sprintId },
           orderInSprint: Between(newOrder, oldOrder),
         },
         { orderInSprint: () => '"orderInSprint" + 1' },
