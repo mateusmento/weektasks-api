@@ -3,7 +3,14 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { find, max } from 'lodash';
 import { CreateIssueDto } from 'src/issues/dto/create-issue.dto';
 import { Issue } from 'src/issues/entities/issue.entity';
-import { Between, Equal, Not, Repository } from 'typeorm';
+import {
+  Between,
+  Equal,
+  MoreThan,
+  MoreThanOrEqual,
+  Not,
+  Repository,
+} from 'typeorm';
 import { CreateSprintDto } from './dto/create-sprint.dto';
 import { UpdateSprintDto } from './dto/update-sprint.dto';
 import { Sprint } from './entities/sprint.entity';
@@ -123,6 +130,19 @@ export class SprintsService {
         orderInSprint: MoreThanOrEqual(order),
       },
       { orderInSprint: () => '"orderInSprint" + 1' },
+    );
+  }
+
+  async removeIssueFromSprint(sprintId: number, issueId: number) {
+    const issue = await this.issueRepo.findOneBy({ id: issueId });
+    const order = issue.orderInSprint;
+    this.issueRepo.update(
+      {
+        id: Not(Equal(issueId)),
+        sprint: { id: sprintId },
+        orderInSprint: MoreThan(order),
+      },
+      { orderInSprint: () => '"orderInSprint" - 1' },
     );
   }
 }

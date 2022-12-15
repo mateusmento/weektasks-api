@@ -68,4 +68,12 @@ export class SprintsController {
   ) {
     return this.sprintsService.moveIssueToSprint(sprintId, issueId, order);
   }
+
+  @Delete(':sprintId/issues/:issueId')
+  removeIssueFromSprint(
+    @Param('sprintId') sprintId: number,
+    @Param('issueId') issueId: number,
+  ) {
+    return this.sprintsService.removeIssueFromSprint(sprintId, issueId);
+  }
 }
