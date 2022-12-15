@@ -110,4 +110,19 @@ export class SprintsService {
       );
     }
   }
+
+  async moveIssueToSprint(sprintId: number, issueId: number, order: number) {
+    this.issueRepo.update(
+      { id: issueId },
+      { sprint: { id: sprintId }, epic: null, orderInSprint: order },
+    );
+    this.issueRepo.update(
+      {
+        id: Not(Equal(issueId)),
+        sprint: { id: sprintId },
+        orderInSprint: MoreThanOrEqual(order),
+      },
+      { orderInSprint: () => '"orderInSprint" + 1' },
+    );
+  }
 }

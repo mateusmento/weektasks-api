@@ -59,4 +59,13 @@ export class SprintsController {
   ) {
     return this.sprintsService.moveIssueInSprint(sprintId, issueId, order);
   }
+
+  @Post(':sprintId/issues/:issueId')
+  moveIssueToSprint(
+    @Param('sprintId') sprintId: number,
+    @Param('issueId') issueId: number,
+    @Body('order') order: number,
+  ) {
+    return this.sprintsService.moveIssueToSprint(sprintId, issueId, order);
+  }
 }
