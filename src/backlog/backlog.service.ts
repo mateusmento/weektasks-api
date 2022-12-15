@@ -214,6 +214,6 @@ export class BacklogService {
       .select('max(issue.orderInEpic)', 'order')
       .where('issue.epic.id = :epicId', { epicId })
       .getRawOne();
-    return max.order ?? -1;
+    return (max.order ?? -1) + 1;
   }
 }
